@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>BDE: detecci&oacute;n de veh&iacute;culos</title>
+	<link rel="icon" type="image/png" href="../static/bde_logo.png" >
+	
+	<meta http-equiv="Cache-control" content="no-cache">
+	<meta http-equiv="pragma" content="no-cache">
+	
+	<link href="https://fonts.googleapis.com/css?family=Maven+Pro&display=swap" rel="stylesheet">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <style>
+	* {
+	  box-sizing: border-box;
+	}
+
+	body {
+	  font-family: Maven Pro, Arial, Helvetica, sans-serif;
+	  background-image: url('../static/fondo.png');
+	  background-repeat: no-repeat;
+	  background-attachment: fixed;
+	  background-size: cover;
+	}
+
+	/*table, th, td {
+  		border: 1px solid black;
+		text-align: center;
+	}*/
+
+	/* Style the header */
+	.header {
+	  background-color: #00000000;
+	  color: #e77124;
+	  padding: 5px;
+	  text-align: center;
+	  font-size: 24px;
+	}
+
+	/* Create three equal columns that floats next to each other */
+	.column {
+	  float: left;
+	  width: 50%;
+	  padding: 5px;
+	  background-color: #00000000;
+	}
+
+	/* Clear floats after the columns */
+	.row:after {
+	  content: "";
+	  display: table;
+	  clear: both;
+	}
+
+	/* Style the footer */
+	.footer {
+	  position: fixed;
+	  left: 0;
+	  bottom: 0;
+	  width: 100%;
+	  background-color: black;
+	  color: #e77124;
+	  text-align: center;
+	}
+	
+	.button {
+		background: #e77124;
+		color: white;
+		border: none;
+		font-family: Maven Pro, Arial, Helvetica, sans-serif;
+		font: bold;
+		font-size: 16px;
+		border-radius: 8px;
+		margin: 4px 2px;
+		padding: 7px 16px;
+		cursor: pointer;
+		border: 2px solid #e77124;
+	}
+	.button:hover {
+		background-color: white;
+		color: #e77124;
+	}
+	.button_2 {
+		/*Boton discreto*/
+		background: #e77124;
+		color: white;
+		border: none;
+		font-family: Maven Pro, Arial, Helvetica, sans-serif;
+		font: bold;
+		font-size: 12px;
+		border-radius: 8px;
+		margin: 2px 1px;
+		padding: 4px 8px;
+		cursor: pointer;
+		border: 2px solid #e77124;
+	}
+	.button_2:hover {
+		background-color: white;
+		color: #e77124;
+	}
+	/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+	@media (max-width: 600px) {
+	  .column {
+		width: 100%;
+	  }
+	}
+  </style>
+  <body>
+	  	<div class="row">
+			<div class="column" style="width: 100%; text-align: center;">
+				<div class="header">
+					<h3>Detecci&oacute;n de elementos vehiculares</h3>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column" style="width: 100%; text-align: center;">
+				<h4>Detecci&oacute;n de veh&iacute;culos</h4>
+				<form name = "carro" action = "/deteccion " method="POST" enctype="multipart/form-data"
+                    onsubmit="return validaFormulario()">
+                    
+					<label for="foto">Veh&iacute;culos:</label>
+					<input type="file" id="foto" name="foto"
+                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"
+                                accept=".jpg, .png, .tif, .jpeg">
+					</br>
+					<div style="padding-bottom:20px;"></div>
+					<input type="submit" value="Detectar" class="button">
+				</form>
+			</div>
+        </div>
+		<div style="padding-bottom:20px;"></div>
+
+		<div class="row">
+			<div class="column" style="width: 100%; text-align: center;">
+				<h4>Extracci&oacute;n  de placas</h4>
+				<form name = "placa" action = "/extraccion_placa " method="POST" enctype="multipart/form-data"
+                    onsubmit="return validaFormulario2()">
+                    
+					<label for="foto_pl">Placa:</label>
+					<input type="file" id="foto_pl" name="foto"
+                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"
+                                accept=".jpg, .png, .tif, .jpeg">
+					</br>
+					<div style="padding-bottom:20px;"></div>
+					<input type="submit" value="Extraer" class="button">
+				</form>
+			</div>
+        </div>
+		<div style="padding-bottom:20px;"></div>
+
+		<div class="row">
+			<div class="column" style="width: 100%; text-align: center;">
+				<h4>Extracci&oacute;n de vin</h4>
+				<form name = "vin" action = "/extraccion_vin " method="POST" enctype="multipart/form-data"
+                    onsubmit="return validaFormulario3()">
+                    
+					<label for="foto_vin">Vin:</label>
+					<input type="file" id="foto_vin" name="foto"
+                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"
+                                accept=".jpg, .png, .tif, .jpeg">
+					</br>
+					<div style="padding-bottom:20px;"></div>
+					<input type="submit" value="Extraer" class="button">
+				</form>
+			</div>
+        </div>
+
+		<div style="padding-bottom:100px;"></div>
+
+		<div class="footer">
+			<p>Business Data Evolution 2021 &#169; Todos los derechos reservados
+			<br>
+				<a style="color: #e77124; text-decoration: none; cursor: pointer;" href="http://www.bdatae.com/index.php/aviso-de-privacidad">Aviso de privacidad</a>
+			</p>
+        </div>
+        
+
+		<script>
+			
+			function validaFormulario() {
+				// valida los parametros para entrenar
+                var x = document.forms["carro"]["foto"].value;
+				if (x == "") {
+					alert("Debe cargar una imagen primero.");
+					return false;
+				}
+            }
+
+			function validaFormulario2() {
+				// valida los parametros para entrenar
+                var x = document.forms["placa"]["foto"].value;
+				if (x == "") {
+					alert("Debe cargar una imagen primero.");
+					return false;
+				}
+            }
+
+			function validaFormulario3() {
+				// valida los parametros para entrenar
+                var x = document.forms["vin"]["foto"].value;
+				if (x == "") {
+					alert("Debe cargar una imagen primero.");
+					return false;
+				}
+            }
+
+		</script>
+
+	</body>
+
+</html>
