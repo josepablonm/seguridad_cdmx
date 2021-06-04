@@ -119,13 +119,14 @@
 		<div class="row">
 			<div class="column" style="width: 100%; text-align: center;">
 				<h4>Detecci&oacute;n de veh&iacute;culos</h4>
-				<form name = "carro" action = "/deteccion " method="POST" enctype="multipart/form-data"
-                    onsubmit="return validaFormulario()">
+				<form name = "carro" action = "/prueba" method="POST" enctype="multipart/form-data">
                     
-					<label for="foto">Veh&iacute;culos:</label>
-					<input type="file" id="foto" name="foto"
-                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"
-                                accept=".jpg, .png, .tif, .jpeg">
+					<label for="latitud">Latitud:</label>
+					<input type="texto" name="latitud"
+                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"/>
+                    <label for="longitud">Longitud:</label>
+                    <input type="texto" name="longitud"
+                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"/>
 					</br>
 					<div style="padding-bottom:20px;"></div>
 					<input type="submit" value="Detectar" class="button">
@@ -133,6 +134,10 @@
 			</div>
         </div>
 		<div style="padding-bottom:20px;"></div>
+
+        {% if "latitud" in respuesta %}
+            <p>Latitud: {{respuesta["latitud"]}} </p>
+        {% endif %}
 
 		<div class="row">
 			<div class="column" style="width: 100%; text-align: center;">
@@ -177,7 +182,6 @@
 				<a style="color: #e77124; text-decoration: none; cursor: pointer;" href="http://www.bdatae.com/index.php/aviso-de-privacidad">Aviso de privacidad</a>
 			</p>
         </div>
-        
 
 		<script>
 			
