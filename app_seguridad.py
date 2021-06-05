@@ -12,9 +12,15 @@ from datetime import datetime as dt
 
 app = Flask(__name__)
 
-@app.route('/',methods=['POST','GET'])
-def prediccion_delito():
+@app.route('/')
+def landing():
+    """Funcion para redirigir al endpoint correcto"""
 
+    return redirect(url_for("show_map"))
+
+@app.route('/crimen',methods=['POST','GET'])
+def prediccion_delito():
+    """Funcion para decir que crimen es mas probable en un lugar"""
     if request.method == 'POST':
         latitud = request.form['latitud']
         longitud = request.form['longitud']
@@ -32,16 +38,16 @@ def prediccion_delito():
     return render_template("crimen.html",respuesta = {})
 
 
+@app.route('/datos')
+def show_map():
+    """Funcion para mostrar un mapa con datos"""
+    return render_template("datos.html",respuesta={"mapa_base":"mapas/mapa01.html"})
+
+
 @app.route('/revisa_estado')
 def api_status():
     # hacer cosas
-    return render_template("menu.html")
-
-@app.route('/mapa')
-def show_map():
-    
-    return 'Aplicacion en linea'
-
+    return "Aplicacion en linea"
         
 if __name__ == '__main__':
     app.run(host= '0.0.0.0')
