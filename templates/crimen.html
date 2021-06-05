@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Proyecto Grandes Datos</title>
+	<link rel="icon" type="image/png" href="../static/bde_logo.png" >
+	
+	<meta http-equiv="Cache-control" content="no-cache">
+	<meta http-equiv="pragma" content="no-cache">
+	
+	<link href="https://fonts.googleapis.com/css?family=Maven+Pro&display=swap" rel="stylesheet">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <style>
+	* {
+	  box-sizing: border-box;
+	}
+
+	body {
+	  font-family: Maven Pro, Arial, Helvetica, sans-serif;
+	  background-image: url('../static/fondo.png');
+	  background-repeat: no-repeat;
+	  background-attachment: fixed;
+	  background-size: cover;
+	}
+
+	/*table, th, td {
+  		border: 1px solid black;
+		text-align: center;
+	}*/
+
+	/* Style the header */
+	.header {
+	  background-color: #00000000;
+	  color: #e77124;
+	  padding: 5px;
+	  text-align: center;
+	  font-size: 24px;
+	}
+
+	/* Create three equal columns that floats next to each other */
+	.column {
+	  float: left;
+	  width: 50%;
+	  padding: 5px;
+	  background-color: #00000000;
+	}
+
+	/* Clear floats after the columns */
+	.row:after {
+	  content: "";
+	  display: table;
+	  clear: both;
+	}
+
+	/* Style the footer */
+	.footer {
+	  position: fixed;
+	  left: 0;
+	  bottom: 0;
+	  width: 100%;
+	  background-color: black;
+	  color: #e77124;
+	  text-align: center;
+	}
+	
+	.button {
+		background: #e77124;
+		color: white;
+		border: none;
+		font-family: Maven Pro, Arial, Helvetica, sans-serif;
+		font: bold;
+		font-size: 16px;
+		border-radius: 8px;
+		margin: 4px 2px;
+		padding: 7px 16px;
+		cursor: pointer;
+		border: 2px solid #e77124;
+	}
+	.button:hover {
+		background-color: white;
+		color: #e77124;
+	}
+	.button_2 {
+		/*Boton discreto*/
+		background: #e77124;
+		color: white;
+		border: none;
+		font-family: Maven Pro, Arial, Helvetica, sans-serif;
+		font: bold;
+		font-size: 12px;
+		border-radius: 8px;
+		margin: 2px 1px;
+		padding: 4px 8px;
+		cursor: pointer;
+		border: 2px solid #e77124;
+	}
+	.button_2:hover {
+		background-color: white;
+		color: #e77124;
+	}
+	/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+	@media (max-width: 600px) {
+	  .column {
+		width: 100%;
+	  }
+	}
+  </style>
+  <body>
+	  	<div class="row">
+			<div class="column" style="width: 100%; text-align: center;">
+				<div class="header">
+					<h3>El crimen en CDMX</h3>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column" style="width: 100%; text-align: center;">
+				<h4> &iquestQu&eacute crimen te toca? </h4>
+				<form name = "datos" action = "/" method="POST" enctype="multipart/form-data"
+                    onsubmit="return validaFormulario()">
+                    
+
+					</br>
+					<label for="latitud">Latitud:</label>
+					<input type="number" step="0.0000001" name="latitud"
+                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"
+                                accept=".jpg, .png, .tif, .jpeg">
+					<br></br>
+
+					<label for="longitud">Longitud:</label>
+					<input type="number" step="0.0000001" name="longitud"
+                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"
+                                accept=".jpg, .png, .tif, .jpeg">
+
+					<br></br>
+
+					<label for="dia">D&iacutea de la semana:</label>
+					<select  name="dia">
+					  <option value="lunes">Lunes</option>
+					  <option value="martes">Martes</option>
+					  <option value="miercoles">Mi&eacutercoles</option>
+					  <option value="jueves">Jueves</option>
+					  <option value="viernes">Viernes</option>
+					  <option value="sabado">S&aacutebado</option>
+					  <option value="domingo">Jueves</option>
+					</select>
+
+					<br></br>
+
+					<label for="hora">Hora:</label>
+					<input type="time"   name="hora"
+                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"
+                                >
+
+					<div style="padding-bottom:20px;"></div>
+					<input type="submit" value="Predecir" class="button">
+				</form>
+			</div>
+        </div>
+		<div style="padding-bottom:20px;"></div>
+
+		{% if "mapa" in respuesta %}
+            <p>Te toc&oacute: {{respuesta["crimen"]}} </p>
+			{% include respuesta["mapa"]}
+        {% endif %}
+
+
+		
+
+		<div class="footer">
+			<p>Business Data Evolution 2021 &#169; Todos los derechos reservados
+			<br>
+				<a style="color: #e77124; text-decoration: none; cursor: pointer;" href="http://www.bdatae.com/index.php/aviso-de-privacidad">Aviso de privacidad</a>
+			</p>
+        </div>
+        
+
+		<script>
+			
+			function validaFormulario() {
+				// valida las coordenadas para la cdmx
+                var x = document.forms["datos"]["latitud"].value;
+				var y = document.forms["datos"]["longitud"].value;
+				if (x > 19.561229 || x < 19.270468 || y > -98.999691 || y < -99.301096) {
+					alert("Sus coordenadas deben estar en la CDMX");
+					return false;
+				}
+            }
+
+				
+
+		</script>
+
+	</body>
+
+</html>
