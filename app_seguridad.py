@@ -12,17 +12,25 @@ from datetime import datetime as dt
 
 app = Flask(__name__)
 
-@app.route('/prueba',methods=['POST','GET'])
-def funcion_prueba():
+@app.route('/',methods=['POST','GET'])
+def prediccion_delito():
 
     if request.method == 'POST':
         latitud = request.form['latitud']
         longitud = request.form['longitud']
-        print(latitud)
-        print(longitud)
-        return render_template("menu.html",respuesta = {"latitud":latitud,"longitud":longitud})
+        dia = request.form['dia']
+        hora = request.form['hora']
+        print("Latitud",latitud)
+        print("Longitud",longitud)
+        print("Dia",dia)
+        print("Hora",hora)
+
+        # clasificacion
+        crimen = "Asalto"
+        return render_template("crimen.html",respuesta = {"crimen":crimen,"mapa":"mapas/mapa01.html"})
     
-    return render_template("menu.html",respuesta = {})
+    return render_template("crimen.html",respuesta = {})
+
 
 @app.route('/revisa_estado')
 def api_status():
