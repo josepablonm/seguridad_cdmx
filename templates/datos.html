@@ -34,7 +34,7 @@
 	.header {
 	  background-color: #00000000;
 	  color: #e77124;
-	  padding: 5px;
+	  padding: 4px;
 	  text-align: center;
 	  font-size: 24px;
 	}
@@ -107,6 +107,35 @@
 		width: 100%;
 	  }
 	}
+
+	.topnav {
+	  background-color: #333;
+	  overflow: hidden;
+	}
+
+	/* Style the links inside the navigation bar */
+	.topnav a {
+	  float: left;
+	  color: #f2f2f2;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	  font-size: 17px;
+	}
+
+	/* Change the color of links on hover */
+	.topnav a:hover {
+	  background-color: #FFC594;
+	  color: black;
+	}
+
+	/* Add a color to the active/current link */
+	.topnav a.active {
+	  background-color: #e77124;
+	  color: white;
+	}
+
+
   </style>
   <body>
 	  	<div class="row">
@@ -117,56 +146,24 @@
 			</div>
 		</div>
 		
+		<div class="topnav">
+			  <a class="active" href="/datos">Datos</a>
+			  <a href="/crimen">Predecir</a>
+		</div>
+
+
 		<div class="row">
 			<div class="column" style="width: 100%; text-align: center;">
-				<h4> &iquestQu&eacute crimen te toca? </h4>
-				<form name = "datos" action = "/" method="POST" enctype="multipart/form-data"
-                    onsubmit="return validaFormulario()">
-                    
+				<h4> Datos del modelo </h4>
 
-					</br>
-					<label for="latitud">Latitud:</label>
-					<input type="number" step="0.0000001" name="latitud"
-                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"
-                                accept=".jpg, .png, .tif, .jpeg">
-					<br></br>
-
-					<label for="longitud">Longitud:</label>
-					<input type="number" step="0.0000001" name="longitud"
-                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"
-                                accept=".jpg, .png, .tif, .jpeg">
-
-					<br></br>
-
-					<label for="dia">D&iacutea de la semana:</label>
-					<select  name="dia">
-					  <option value="lunes">Lunes</option>
-					  <option value="martes">Martes</option>
-					  <option value="miercoles">Mi&eacutercoles</option>
-					  <option value="jueves">Jueves</option>
-					  <option value="viernes">Viernes</option>
-					  <option value="sabado">S&aacutebado</option>
-					  <option value="domingo">Jueves</option>
-					</select>
-
-					<br></br>
-
-					<label for="hora">Hora:</label>
-					<input type="time"   name="hora"
-                                style="font-family:Maven Pro, Arial, Helvetica, sans-serif;"
-                                >
-
-					<div style="padding-bottom:20px;"></div>
-					<input type="submit" value="Predecir" class="button">
-				</form>
 			</div>
         </div>
 		<div style="padding-bottom:20px;"></div>
 
-		{% if "mapa" in respuesta %}
-            <p>Te toc&oacute: {{respuesta["crimen"]}} </p>
-			{% include respuesta["mapa"] %}
-        {% endif %}
+
+            
+		{% include respuesta["mapa_base"] %}
+
 
 
 		
@@ -183,16 +180,7 @@
         
 
 		<script>
-			
-			function validaFormulario() {
-				// valida las coordenadas para la cdmx
-                var x = document.forms["datos"]["latitud"].value;
-				var y = document.forms["datos"]["longitud"].value;
-				if (x > 19.561229 || x < 19.270468 || y > -98.999691 || y < -99.301096) {
-					alert("Sus coordenadas deben estar en la CDMX");
-					return false;
-				}
-            }
+
 
 				
 
