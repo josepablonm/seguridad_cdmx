@@ -25,7 +25,8 @@ RUN . activate seguridad_cdmx \
  && pip install pandas \
  && pip install Flask \
  && pip install seaborn \
- && pip install SQLAlchemy
+ && pip install SQLAlchemy \
+ && pip install tensorflow==2.5.0
 
 
 COPY start.sh /home/start.sh
@@ -42,5 +43,14 @@ RUN dos2unix /etc/uwsgi/uwsgi.ini
 
 COPY conf/supervisord.conf /etc/
 RUN dos2unix /etc/supervisord.conf
+
+RUN mkdir /home/modelos \
+&& mkdir /home/templates \
+&& mkdir /home/static
+
+COPY app_seguridad.py /home/app_seguridad.py
+COPY modelos/ /home/modelos/
+COPY templates/ /home/templates/
+COPY static/ /home/static/
 
 CMD ["/home/start.sh"]
