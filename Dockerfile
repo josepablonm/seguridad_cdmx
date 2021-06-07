@@ -4,8 +4,6 @@ FROM tensorflow/tensorflow:1.14.0-py3
 RUN apt-get update && apt-get install -y \
 	libsm6 libxext6 libxrender-dev nginx supervisor curl libcurl4-openssl-dev libssl-dev
 
-RUN useradd --no-create-home ngi
-
 RUN pip install uWSGI==2.0.18 \
  && pip install folium \
  && pip install pandas \
@@ -14,6 +12,7 @@ RUN pip install uWSGI==2.0.18 \
  && pip install SQLAlchemy \
  && pip install tensorflow==2.5.0
 
+RUN useradd --no-create-home nginx
 
 RUN apt-get update && apt-get install -y dos2unix
 
@@ -40,6 +39,7 @@ RUN mkdir /home/modelos \
 && mkdir /home/log
 
 COPY app_seguridad.py /home/app_seguridad.py
+COPY mapea_delitos.py /home/mapea_delitos.py
 COPY modelos/ /home/modelos/
 COPY templates/ /home/templates/
 COPY static/ /home/static/
