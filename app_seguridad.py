@@ -91,7 +91,7 @@ def prediccion_delito():
     return render_template("crimen.html",respuesta = {})
 
 
-@app.route('/datos', methosd=['POST','GET'])
+@app.route('/datos', methods=['POST','GET'])
 def show_map():
     """Funcion para mostrar un mapa con datos"""
     if request.method == 'POST':
