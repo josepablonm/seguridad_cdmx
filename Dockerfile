@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:1.14.0-gpu-py3
+FROM tensorflow/tensorflow:1.14.0-py3
 
 # Se instalan los paquetes necesarios
 RUN apt-get update && apt-get install -y \
