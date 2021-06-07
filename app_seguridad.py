@@ -8,7 +8,7 @@ from mapea_delitos import mapa_delito
 import tensorflow as tf
 from tensorflow.keras.models import save_model, load_model
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder, StandardScaler
-import pickle, json
+import pickle, json, os
 from joblib import load
 from scipy.spatial import distance_matrix
 
@@ -79,16 +79,26 @@ def prediccion_delito():
         pnum = tf.argmax(pred, axis=1)
         crimen = LABELS.inverse_transform(pnum)[0]
         geo_point['delito'] = crimen
-        mapa = mapa_delito(geo_point,'mapax')
+        maps = os.listdir('templates/mapas/')
+        if len(maps)>4:
+            for mapa in maps:
+                if mapa != 'mapa01.html':
+                    os.remove('templates/mapas/'+mapa)
+        nombre = 'mapa{}'.format(dt.strftime(dt.now(),'%Y_%m_%d_%H_%M_%S'))
+        mapa = mapa_delito(geo_point,nombre)
         return render_template("crimen.html",respuesta = {"crimen":crimen,"mapa":mapa})
     
     return render_template("crimen.html",respuesta = {})
 
 
-@app.route('/datos')
+@app.route('/datos', methosd=['POST','GET'])
 def show_map():
     """Funcion para mostrar un mapa con datos"""
-    return render_template("datos.html",respuesta={"mapa_base":"mapas/mapa01.html"})
+    if request.method == 'POST':
+        delito = request.form['delito']
+        mapa = 'delitos/{}.html'.format(delito)
+        return render_template("datos.html",respuesta={"mapa_base":mapa})    
+    return render_template("datos.html",respuesta={})
 
 
 @app.route('/revisa_estado')
