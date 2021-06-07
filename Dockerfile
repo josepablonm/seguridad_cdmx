@@ -28,8 +28,10 @@ RUN . activate seguridad_cdmx \
  && pip install SQLAlchemy \
  && pip install tensorflow==2.5.0
 
-
 RUN useradd --no-create-home nginx
+
+RUN pip install uWSGI==2.0.18
+
 RUN apt-get update && apt-get install -y dos2unix
 
 COPY start.sh /home/start.sh
