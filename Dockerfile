@@ -33,7 +33,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN useradd --no-create-home nginx
 
-RUN apt-get update && apt-get install -y install uwsgi-plugin-python3
+RUN apt-get update && apt-get install -y uwsgi-plugin-python3
 
 RUN apt-get update && apt-get install -y dos2unix
 
