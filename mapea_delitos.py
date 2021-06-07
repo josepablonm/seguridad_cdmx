@@ -81,7 +81,7 @@ def mapa_delito(geo_point, nombre, tiles='Stamen Toner'):
     
     map_cluster = MarkerCluster().add_to(map_it)
 
-    if geo_point['delito'] == 'R. Vehiculo':
+    if geo_point['delito'] == 'R. Vehiculo' or geo_point['delito'] == 'R. Vehículo':
         color = 'crimson'
         icon = 'automobile'
     elif geo_point['delito'] == 'R. Transeunte':

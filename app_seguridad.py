@@ -67,16 +67,15 @@ def prediccion_delito():
         print("Longitud",longitud)
         print("Dia",dia)
         print("Hora",hora)
-
+        
         # preparamos datos
         geo_point = {'location':[float(latitud),float(longitud)],'tiempo':'{}-{}'.format(dia,hora)}
-        nhora = int(hora[:2]) if hora[-3:]=='AM' else int(hora[:2]) + 12
-        Xtime = np.array([nhora])
-        X = get_features(np.array([geo_point['location']]), Xtime, np.array([dia]), SCALER)
+        Xtime = np.array([int(hora[:2])])
+        X, _ = get_features(np.array([geo_point['location']]), Xtime, np.array([dia]), SCALER)
         # clasificamos
         pred = CLASIFICADOR.predict({'in_vector': X})
-        pnum = tf.argmax(pred[0], axis=1)
-        crimen = LABELS.inverse_transform(pnum)
+        pnum = tf.argmax(pred, axis=1)
+        crimen = LABELS.inverse_transform(pnum)[0]
         geo_point['delito'] = crimen
         mapa = mapa_delito(geo_point,'mapax')
         return render_template("crimen.html",respuesta = {"crimen":crimen,"mapa":mapa})
