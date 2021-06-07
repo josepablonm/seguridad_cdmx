@@ -51,7 +51,8 @@ RUN apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /home/modelos \
 && mkdir /home/templates \
-&& mkdir /home/static
+&& mkdir /home/static \
+&& mkdir /home/log
 
 COPY app_seguridad.py /home/app_seguridad.py
 COPY modelos/ /home/modelos/
