@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:2.5
+FROM tensorflow/tensorflow:1.14.0-gpu-py3
 
 # Se instalan los paquetes necesarios
 RUN apt-get update && apt-get install -y \
@@ -11,7 +11,8 @@ RUN pip install uWSGI==2.0.18 \
  && pip install pandas \
  && pip install Flask \
  && pip install seaborn \
- && pip install SQLAlchemy 
+ && pip install SQLAlchemy \
+ && pip install tensorflow==2.5.0
 
 
 RUN apt-get update && apt-get install -y dos2unix
