@@ -46,9 +46,9 @@ COPY modelos/ /home/modelos/
 COPY templates/ /home/templates/
 COPY static/ /home/static/
 
-RUN chmod +777 templates/* \
-&& chmod +777 static \
-&& chmod +777 templates/mapas \
-&& chmod +777 templates/delitos
+RUN chmod +777 /home/templates/* \
+&& chmod +777 /home/static \
+&& chmod +777 /home/templates/mapas \
+&& chmod +777 /home/templates/delitos
 
 CMD ["/home/start.sh"]
