@@ -13,6 +13,8 @@ from joblib import load
 from scipy.spatial import distance_matrix
 
 app = Flask(__name__)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+PORT = 5000
 
 CLASIFICADOR = load_model('modelos/modelo.h5')
 
@@ -95,4 +97,4 @@ def api_status():
     return "Aplicacion en linea"
         
 if __name__ == '__main__':
-    app.run(host= '0.0.0.0')
+    app.run(host= '0.0.0.0', port=PORT, debug=False)

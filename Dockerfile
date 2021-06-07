@@ -29,6 +29,9 @@ RUN . activate seguridad_cdmx \
  && pip install tensorflow==2.5.0
 
 
+RUN useradd --no-create-home nginx
+RUN apt-get update && apt-get install -y dos2unix
+
 COPY start.sh /home/start.sh
 RUN chmod 0777 /home/start.sh
 
@@ -43,6 +46,8 @@ RUN dos2unix /etc/uwsgi/uwsgi.ini
 
 COPY conf/supervisord.conf /etc/
 RUN dos2unix /etc/supervisord.conf
+
+RUN apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /home/modelos \
 && mkdir /home/templates \
