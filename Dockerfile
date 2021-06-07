@@ -28,10 +28,12 @@ RUN . activate seguridad_cdmx \
  && pip install SQLAlchemy \
  && pip install tensorflow==2.5.0
 
+RUN apt-get update && apt-get install -y \
+    libsm6 libxext6 libxrender-dev nginx supervisor curl libcurl4-openssl-dev libssl-dev
+
 RUN useradd --no-create-home nginx
 
-RUN apt-get update && apt-get install gcc -y \
-&& pip install uWSGI==2.0.18
+RUN apt-get update && apt-get install -y install uwsgi-plugin-python3
 
 RUN apt-get update && apt-get install -y dos2unix
 
