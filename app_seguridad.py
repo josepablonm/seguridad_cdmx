@@ -67,11 +67,11 @@ def prediccion_delito():
         print("Longitud",longitud)
         print("Dia",dia)
         print("Hora",hora)
-        
+
         # preparamos datos
         geo_point = {'location':[float(latitud),float(longitud)],'tiempo':'{}-{}'.format(dia,hora)}
         Xtime = np.array([int(hora[:2])])
-        X, _ = get_features(np.array([geo_point['location']]), Xtime, np.array([dia]), SCALER)
+        X, _ = get_features(np.array([geo_point['location']]), Xtime, np.array([dia]).reshape(-1,1), SCALER)
         # clasificamos
         pred = CLASIFICADOR.predict({'in_vector': X})
         pnum = tf.argmax(pred, axis=1)
