@@ -9,7 +9,7 @@ import tensorflow as tf
 from tensorflow.keras.models import save_model, load_model
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder, StandardScaler
 import pickle, json
-from sklearn.externals.joblib import load
+from joblib import load
 from scipy.spatial import distance_matrix
 
 app = Flask(__name__)
