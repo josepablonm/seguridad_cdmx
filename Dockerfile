@@ -1,39 +1,18 @@
-FROM ubuntu:18.04
-ENV PATH="/root/miniconda3/bin:${PATH}"
-ARG PATH="/root/miniconda3/bin:${PATH}"
+FROM tensorflow/tensorflow:2.5
 
-RUN apt-get update \
- && apt-get install -y wget \
- && rm -rf /var/lib/apt/lists/*
+# Se instalan los paquetes necesarios
+RUN apt-get update && apt-get install -y \
+	libsm6 libxext6 libxrender-dev nginx supervisor curl libcurl4-openssl-dev libssl-dev
 
-RUN wget \
-    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && mkdir /root/.conda \
-    && bash Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh 
+RUN useradd --no-create-home ngi
 
-RUN conda --version
-
-RUN conda create -n seguridad_cdmx python=3.6.9
-
-RUN conda init bash \
- && . ~/.bashrc
-
-RUN . activate seguridad_cdmx \
- && apt-get update \
- && conda install -c conda-forge folium -y \
+RUN pip install uWSGI==2.0.18 \
+ && pip install folium \
  && pip install pandas \
  && pip install Flask \
  && pip install seaborn \
- && pip install SQLAlchemy \
- && pip install tensorflow==2.5.0
+ && pip install SQLAlchemy 
 
-RUN apt-get update && apt-get install -y \
-    libsm6 libxext6 libxrender-dev nginx supervisor curl libcurl4-openssl-dev libssl-dev
-
-RUN useradd --no-create-home nginx
-
-RUN apt-get update && apt-get install -y uwsgi-plugin-python3
 
 RUN apt-get update && apt-get install -y dos2unix
 
