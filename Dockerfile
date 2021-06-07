@@ -12,6 +12,8 @@ RUN pip install uWSGI==2.0.18 \
  && pip install SQLAlchemy \
  && pip install tensorflow==2.5.0
 
+RUN pip install -U scikit-learn==0.21.3
+
 RUN useradd --no-create-home nginx
 
 RUN apt-get update && apt-get install -y dos2unix
@@ -43,5 +45,10 @@ COPY mapea_delitos.py /home/mapea_delitos.py
 COPY modelos/ /home/modelos/
 COPY templates/ /home/templates/
 COPY static/ /home/static/
+
+RUN chmod +777 /home/templates/* \
+&& chmod +777 /home/static \
+&& chmod +777 /home/templates/mapas \
+&& chmod +777 /home/templates/delitos
 
 CMD ["/home/start.sh"]

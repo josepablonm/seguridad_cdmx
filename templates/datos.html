@@ -154,14 +154,14 @@
 
 		<div class="row">
 			<div class="column" style="width: 100%; text-align: center;">
-				<h4> Datos del modelo </h4>
+				<h4> Selecciona un delito para visualizar un mapa </h4>
 				<form name = "datos" action = "/datos" method="POST" enctype="multipart/form-data"
                    >
                     
 					</br>
 
-					<label for="dia">D&iacutea de la semana:</label>
-					<select  name="dia">
+					<label for="delito">D&iacutea de la semana:</label>
+					<select  name="delito">
 					  <option value="bajo_impacto">Delito de bajo impacto</option>
 					  <option value="homicidio">Homicidio</option>
 					  <option value="arma_fuego">Robo con arma de fuego</option>
@@ -191,7 +191,9 @@
         </div>
 		<div style="padding-bottom:20px;"></div>
 
-		{% include respuesta["mapa_base"] %}
+		{% if "mapa_base" in respuesta %}
+			{% include respuesta["mapa_base"] %}
+        {% endif %}
 
 
 		<div style="padding-bottom:100px;"></div>

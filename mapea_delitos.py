@@ -77,7 +77,7 @@ def mapa_delito(geo_point, nombre, tiles='Stamen Toner'):
         outs:
             map_it : folium.Map
     """
-    map_it = folium.Map(location = geo_point['location'],tiles=tiles,zoom_start=11, prefer_cavas = True)
+    map_it = folium.Map(location = geo_point['location'],tiles=tiles,zoom_start=13, prefer_cavas = True)
     
     map_cluster = MarkerCluster().add_to(map_it)
 
