@@ -3,14 +3,51 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
-#import folium
-#from folium.plugins import HeatMap, MarkerCluster
-import json
 from datetime import datetime as dt
-#from sqlalchemy import create_engine, MetaData, Table, select, Column
-#import sqlalchemy as sdb
+from mapea_delitos import mapa_delito
+import tensorflow as tf
+from tensorflow.keras.models import save_model, load_model
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder, StandardScaler
+import pickle, json
+from sklearn.externals.joblib import load
+from scipy.spatial import distance_matrix
 
 app = Flask(__name__)
+
+CLASIFICADOR = load_model('modelos/modelo.h5')
+
+ENCODER = OneHotEncoder(sparse=False)
+with open('modelos/day_encoder.pkl','rb') as r:
+    ENCODER = pickle.load(r)
+
+SCALER = StandardScaler()
+SCALER = load('modelos/std_scaler.bin')
+
+LABELS = LabelEncoder()
+LABELS.classes_ = np.load('modelos/classes.npy', allow_pickle = True)
+
+COORDENADAS = np.load('modelos/coordenadas.npy',allow_pickle=True)
+
+def get_features(Xcoords,Xtime,Xday,scaler,train=False):
+    """
+    Funcion para sacar features de X
+
+    args:
+        Xcoords :  array - shape=(n,2) floats
+        Xtime :  array - shape=(n,1) int
+        Xday :  array - shape=(n,1) str
+    outs :
+        X_features : array - shape=(n,188) floats
+    """
+    X_features = np.zeros(shape=(Xcoords.shape[0],188))
+    distances = distance_matrix(Xcoords,COORDENADAS)
+    if train:
+        scaler.fit(distances)
+    distances = scaler.transform(distances)
+    X_features[:,0:180] = distances
+    X_features[:,180] = np.reshape(Xtime.astype('float64')/24,(Xcoords.shape[0]))
+    X_features[:,181:] = ENCODER.transform(Xday)
+    return X_features, scaler
 
 @app.route('/')
 def landing():
@@ -31,9 +68,18 @@ def prediccion_delito():
         print("Dia",dia)
         print("Hora",hora)
 
-        # clasificacion
-        crimen = "Asalto"
-        return render_template("crimen.html",respuesta = {"crimen":crimen,"mapa":"mapas/mapa01.html"})
+        # preparamos datos
+        geo_point = {'location':[float(latitud),float(longitud)],'tiempo':'{}-{}'.format(dia,hora)}
+        nhora = int(hora[:2]) if hora[-3:]=='AM' else int(hora[:2]) + 12
+        Xtime = np.array([nhora])
+        X = get_features(np.array([geo_point['location']]), Xtime, np.array([dia]), SCALER)
+        # clasificamos
+        pred = CLASIFICADOR.predict({'in_vector': X})
+        pnum = tf.argmax(pred[0], axis=1)
+        crimen = LABELS.inverse_transform(pnum)
+        geo_point['delito'] = crimen
+        mapa = mapa_delito(geo_point,'mapax')
+        return render_template("crimen.html",respuesta = {"crimen":crimen,"mapa":mapa})
     
     return render_template("crimen.html",respuesta = {})
 

@@ -8,7 +8,7 @@ from folium.plugins import HeatMap, MarkerCluster
 import json
 from datetime import datetime as dt
 
-def mapa_delitos(df, df_alcpp, df_estaciones, geo_data, loc_ini = [19.43,-99.14], tiles='Stamen Toner'):
+def mapa_global(df, df_alcpp, df_estaciones, geo_data, loc_ini = [19.43,-99.14], tiles='Stamen Toner'):
     """
         Funcion para graficar delitos cometidos, estaciones de policia, estaciones de metrobus y colonias
 
@@ -65,3 +65,46 @@ def mapa_delitos(df, df_alcpp, df_estaciones, geo_data, loc_ini = [19.43,-99.14]
     folium.LayerControl().add_to(map_it)
     
     return map_it
+
+
+def mapa_delito(geo_point, nombre, tiles='Stamen Toner'):
+    """
+        Funcion para graficar delitos cometidos, estaciones de policia, estaciones de metrobus y colonias
+        args:
+            df : pandas.DataFrame
+            loc_ini : list - opcional
+            tiles : string - opcional
+        outs:
+            map_it : folium.Map
+    """
+    map_it = folium.Map(location = geo_point['location'],tiles=tiles,zoom_start=11, prefer_cavas = True)
+    
+    map_cluster = MarkerCluster().add_to(map_it)
+
+    if geo_point['delito'] == 'R. Vehiculo':
+        color = 'crimson'
+        icon = 'automobile'
+    elif geo_point['delito'] == 'R. Transeunte':
+        color = 'green'
+        icon = 'male'
+    elif geo_point['delito'] == 'R. Negocio':
+        color = 'purple'
+        icon = 'shopping-bag'
+    elif geo_point['delito'] == 'R. Repartidor':
+        color = 'darkgreen'
+        icon = 'motorcycle'
+    elif geo_point['delito'] == 'R. Metro':
+        color = 'darkrblue'
+        icon = 'subway'
+    else:
+        color = 'black'
+        icon = 'exclamation-circle'
+        
+    folium.Marker(location = geo_point['location'],
+            icon=folium.Icon(color=color, icon=icon, prefix='fa'),
+            popup= geo_point['tiempo']).add_to(map_cluster)
+    
+    htmlname = 'mapas/{}.html'.format(nombre)
+    map_it.save('templates/{}'.format(htmlname))
+
+    return htmlname
