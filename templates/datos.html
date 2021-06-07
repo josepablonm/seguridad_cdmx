@@ -155,6 +155,37 @@
 		<div class="row">
 			<div class="column" style="width: 100%; text-align: center;">
 				<h4> Datos del modelo </h4>
+				<form name = "datos" action = "/datos" method="POST" enctype="multipart/form-data"
+                   >
+                    
+					</br>
+
+					<label for="dia">D&iacutea de la semana:</label>
+					<select  name="dia">
+					  <option value="bajo_impacto">Delito de bajo impacto</option>
+					  <option value="homicidio">Homicidio</option>
+					  <option value="arma_fuego">Robo con arma de fuego</option>
+					  <option value="no_delictivo">Reporte no delictivo</option>
+					  <option value="r_cajero">Robo a cajero</option>
+					  <option value="r_domicilio">Robo a domicilio</option>
+					  <option value="r_metro">Robo en metro</option>
+					  <option value="r_microbus">Robo en microb&uacutes</option>
+					  <option value="r_negocio">Robo a negocio</option>
+					  <option value="r_repartidor">Robo a repartidor</option>
+					  <option value="r_taxi">Robo en taxi</option>
+					  <option value="r_transeunte">Robo a transe&uacutente</option>
+					  <option value="r_transportista">Robo transportista</option>
+					  <option value="r_vehiculo">Robo a veh&iacutelo</option>
+					  <option value="secuestro">Secuestro</option>
+					  <option value="violacion">Violaci&oacuten</option>
+					</select>
+
+					<br></br>
+
+
+					<div style="padding-bottom:20px;"></div>
+					<input type="submit" value="Ver delitos" class="button"/>
+				</form>
 
 			</div>
         </div>
